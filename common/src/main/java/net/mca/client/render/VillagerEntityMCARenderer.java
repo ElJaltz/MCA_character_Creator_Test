@@ -1,10 +1,7 @@
 package net.mca.client.render;
 
 import net.mca.client.model.VillagerEntityModelMCA;
-import net.mca.client.render.layer.ClothingLayer;
-import net.mca.client.render.layer.FaceLayer;
-import net.mca.client.render.layer.HairLayer;
-import net.mca.client.render.layer.SkinLayer;
+import net.mca.client.render.layer.*;
 import net.mca.entity.VillagerEntityMCA;
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelData;
@@ -19,6 +16,8 @@ public class VillagerEntityMCARenderer extends VillagerLikeEntityMCARenderer<Vil
         addFeature(new FaceLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.01F))).hideWears(), "normal"));
         addFeature(new ClothingLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.0625F))), "normal"));
         addFeature(new HairLayer<>(this, createModel(VillagerEntityModelMCA.hairData(new Dilation(0.125F)))));
+        addFeature(new FacialHairLayer<>(this, createModel(VillagerEntityModelMCA.bodyData(new Dilation(0.012F))).hideWears()));
+
     }
 
     private static VillagerEntityModelMCA<VillagerEntityMCA> createModel(ModelData data) {

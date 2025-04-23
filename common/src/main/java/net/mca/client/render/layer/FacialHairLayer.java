@@ -31,7 +31,7 @@ public class FacialHairLayer<T extends LivingEntity, M extends BipedEntityModel<
 
     @Override
     public Identifier getSkin(T villager) {
-        String identifier = getVillager(villager).getHair();
+        String identifier = getVillager(villager).getFacialHair();
         if (identifier.startsWith("immersive_library:")) {
             return SkinCache.getTextureIdentifier(Integer.parseInt(identifier.substring(18)));
         }
@@ -40,7 +40,7 @@ public class FacialHairLayer<T extends LivingEntity, M extends BipedEntityModel<
 
     @Override
     protected Identifier getOverlay(T villager) {
-        return cached(getVillager(villager).getHair().replace(".png", "_overlay.png"), Identifier::new);
+        return cached(getVillager(villager).getFacialHair().replace(".png", "_overlay.png"), Identifier::new);
     }
 
     private float[] getRainbow(LivingEntity entity, float tickDelta) {

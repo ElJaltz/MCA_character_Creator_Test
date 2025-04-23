@@ -19,6 +19,7 @@ import net.mca.fabric.resources.FabricClothingList;
 import net.mca.fabric.resources.FabricDialogues;
 import net.mca.fabric.resources.FabricGiftLoader;
 import net.mca.fabric.resources.FabricHairList;
+import net.mca.fabric.resources.FabricFacial_hairList;
 import net.mca.fabric.resources.FabricNames;
 import net.mca.fabric.resources.FabricTasks;
 import net.mca.item.ItemsMCA;
@@ -47,6 +48,7 @@ public final class MCAFabric implements ModInitializer {
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ApiIdentifiableReloadListener());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricClothingList());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricHairList());
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricFacial_hairList());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricGiftLoader());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricDialogues());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new FabricTasks());

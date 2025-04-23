@@ -47,6 +47,7 @@ public final class MCAForge {
         event.addListener(new ApiReloadListener());
         event.addListener(new ClothingList());
         event.addListener(new HairList());
+        event.addListener(new Facial_hairList());
         event.addListener(new GiftLoader());
         event.addListener(new Dialogues());
         event.addListener(new Tasks());

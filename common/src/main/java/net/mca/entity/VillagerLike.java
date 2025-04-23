@@ -13,6 +13,7 @@ import net.mca.entity.ai.brain.VillagerBrain;
 import net.mca.entity.ai.relationship.*;
 import net.mca.entity.interaction.EntityCommandHandler;
 import net.mca.resources.ClothingList;
+import net.mca.resources.Facial_hairList;
 import net.mca.resources.HairList;
 import net.mca.resources.Names;
 import net.mca.server.world.data.FamilyTreeNode;
@@ -47,6 +48,8 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     CDataParameter<String> CUSTOM_SKIN = CParameter.create("custom_skin", "");
     CDataParameter<String> CLOTHES = CParameter.create("clothes", "");
     CDataParameter<String> HAIR = CParameter.create("hair", "");
+
+    CDataParameter<String> FACIAL_HAIR = CParameter.create("facial_hair", "");
     CDataParameter<Float> HAIR_COLOR_RED = CParameter.create("hair_color_red", 0.0f);
     CDataParameter<Float> HAIR_COLOR_GREEN = CParameter.create("hair_color_green", 0.0f);
     CDataParameter<Float> HAIR_COLOR_BLUE = CParameter.create("hair_color_blue", 0.0f);
@@ -56,7 +59,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     static <E extends Entity> CDataManager.Builder<E> createTrackedData(Class<E> type) {
         return new CDataManager.Builder<>(type)
-                .addAll(VILLAGER_NAME, CUSTOM_SKIN, CLOTHES, HAIR, HAIR_COLOR_RED, HAIR_COLOR_GREEN, HAIR_COLOR_BLUE, AGE_STATE)
+                .addAll(VILLAGER_NAME, CUSTOM_SKIN, CLOTHES, FACIAL_HAIR, HAIR, HAIR_COLOR_RED, HAIR_COLOR_GREEN, HAIR_COLOR_BLUE, AGE_STATE)
                 .add(Genetics::createTrackedData)
                 .add(Traits::createTrackedData)
                 .add(VillagerBrain::createTrackedData);
@@ -261,6 +264,19 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
                 getTrackedValue(HAIR_COLOR_BLUE)
         };
     }
+    default String getFacialHair() {
+        return getTrackedValue(FACIAL_HAIR);
+    }
+
+    default void setFacialHair(Identifier facialHair) {
+        setFacialHair(facialHair.toString());
+    }
+
+    default void setFacialHair(String facialHair) {
+        setTrackedValue(FACIAL_HAIR, facialHair);
+    }
+
+
 
     default AgeState getAgeState() {
         return getTrackedValue(AGE_STATE);
@@ -349,6 +365,7 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
     default void initializeSkin(boolean isPlayer) {
         randomizeClothes();
         randomizeHair();
+        randomizeFacialHair();
 
         //colored hair
         if (!isPlayer) {
@@ -374,6 +391,9 @@ public interface VillagerLike<E extends Entity & VillagerLike<E>> extends CTrack
 
     default void randomizeHair() {
         setHair(HairList.getInstance().getPool(getGenetics().getGender()).pickOne());
+    }
+    default void randomizeFacialHair() {
+        setFacialHair(Facial_hairList.getInstance().getPool(getGenetics().getGender()).pickOne());
     }
 
     default void validateClothes() {

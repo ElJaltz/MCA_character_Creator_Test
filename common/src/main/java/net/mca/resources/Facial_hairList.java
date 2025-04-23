@@ -16,7 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Facial_hairList extends JsonDataLoader {
-    protected static final Identifier ID = MCA.locate("skins/hair");
+    protected static final Identifier ID = MCA.locate("skins/facial_hair");
 
     public final HashMap<String, FacialHair> facial_hair = new HashMap<>();
 

@@ -791,13 +791,21 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
             int y = height / 2 + 70;
             if (villagerUUID.equals(playerUUID) && shouldUsePlayerModel()) {
                 assert MinecraftClient.getInstance().player != null;
-                InventoryScreen.drawEntity(context, x, y, 60, x - mouseX, y - 50 - mouseY, MinecraftClient.getInstance().player);
+                new CharacterCreatorPreviewWidget(
+                        MinecraftClient.getInstance().player,
+                        x, y, 60,
+                        x - mouseX, y - 50 - mouseY
+                ).render(context);
             } else {
-                InventoryScreen.drawEntity(context, x, y, 60, x - mouseX, y - 50 - mouseY, villager);
+                new CharacterCreatorPreviewWidget(
+                        villager,
+                        x, y, 60,
+                        0, 0
+                ).render(context);
             }
 
-            // hint for confused people
-            if (shouldPrintPlayerHint() && villagerUUID.equals(playerUUID) && villagerData.getInt("playerModel") != VillagerLike.PlayerModel.VILLAGER.ordinal()) {
+            if (shouldPrintPlayerHint() && villagerUUID.equals(playerUUID)
+                    && villagerData.getInt("playerModel") != VillagerLike.PlayerModel.VILLAGER.ordinal()) {
                 final MatrixStack matrices = context.getMatrices();
                 matrices.push();
                 matrices.translate(x, y - 145, 0);
@@ -806,6 +814,7 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
                 matrices.pop();
             }
         }
+
 
         if (page.equals("clothing") || page.equals("hair")) {
             NbtCompound nbt = new NbtCompound();
@@ -833,8 +842,13 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
                             hoveredClothingId = index;
                         }
 
-                        InventoryScreen.drawEntity(context, cx, cy, (hoveredClothingId == index) ? 35 : 30,
-                                -(mouseX - cx) / 2.0f, -(mouseY - cy - 64) / 2.0f, villagerVisualization);
+                        new CharacterCreatorPreviewWidget(
+                                villagerVisualization,
+                                cx, cy,
+                                (hoveredClothingId == index) ? 35 : 30,
+                                0, 0
+                        ).render(context);
+
                         i++;
                     } else {
                         break;

@@ -279,6 +279,11 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
                 addDrawableChild(new ButtonWidget(width / 2 + DATA_WIDTH / 2, y, DATA_WIDTH / 2, 20, Text.translatable("gui.villager_editor.selectHair"), b -> {
                     setPage("hair");
                 }));
+                //Facial Hair
+                y += 22;
+                addDrawableChild(new ButtonWidget(width / 2, y, DATA_WIDTH / 2, 20, Text.translatable("gui.villager_editor.randFacial_Hair"), b -> {
+                    sendCommand("facial_hair");
+                }));
                 y += 22;
                 addDrawableChild(new ButtonWidget(width / 2, y, DATA_WIDTH / 2, 20, Text.translatable("gui.villager_editor.prev"), b -> {
                     NbtCompound compound = new NbtCompound();

@@ -49,7 +49,7 @@ public class Facial_hairList extends JsonDataLoader {
                 for (int i = 0; i < JsonHelper.getInt(object, "count", 1); i++) {
                     String identifier = String.format(Locale.ROOT, key, i);
 
-                    FacialHair c = new FacialHair(identifier, gender, JsonHelper.getFloat(object, "chance", 1.0f));
+                    FacialHair c = new FacialHair(identifier, gender, JsonHelper.getFloat(object, "chance", 0.3f));
 
                     if (!facial_hair.containsKey(identifier) || !object.has("count")) {
                         facial_hair.put(identifier, c);

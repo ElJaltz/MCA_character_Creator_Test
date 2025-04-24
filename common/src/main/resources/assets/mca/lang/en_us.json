@@ -632,6 +632,7 @@
   "gui.villager_editor.selectClothing": "Select Clothes",
   "gui.villager_editor.randClothing": "Random Clothes",
   "gui.villager_editor.randHair": "Random Hair",
+  "gui.villager_editor.randFacial_Hair": "Random Beard",
   "gui.villager_editor.selectHair": "Select Hair",
   "gui.villager_editor.prev": "Previous",
   "gui.villager_editor.next": "Next",

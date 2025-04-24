@@ -6,6 +6,7 @@ import net.mca.cobalt.network.NetworkHandler;
 import net.mca.entity.VillagerEntityMCA;
 import net.mca.entity.VillagerLike;
 import net.mca.entity.ai.relationship.Gender;
+import net.mca.resources.Facial_hairList;
 import net.mca.server.world.data.FamilyTree;
 import net.mca.server.world.data.FamilyTreeNode;
 import net.mca.network.NbtDataMessage;
@@ -60,6 +61,22 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
             saveEntity(player, entity, villagerData);
         }
     }
+    private void setFacial_hair(ServerPlayerEntity player, Entity entity) {
+        NbtCompound villagerData = GetVillagerRequest.getVillagerData(entity);
+        if (villagerData != null) {
+            // fetch hair
+            String facial_hair;
+            if (getData().contains("offset")) {
+                facial_hair = Facial_hairList.getInstance().getPool(getGender(villagerData)).pickNext(villagerData.getString("facial_hair"), getData().getInt("offset"));
+            } else {
+                facial_hair = Facial_hairList.getInstance().getPool(getGender(villagerData)).pickOne();
+            }
+
+            // set
+            villagerData.putString("facial_hair", facial_hair);
+            saveEntity(player, entity, villagerData);
+        }
+    }
 
     private void setClothing(ServerPlayerEntity player, Entity entity) {
         NbtCompound villagerData = GetVillagerRequest.getVillagerData(entity);
@@ -89,6 +106,9 @@ public class VillagerEditorSyncRequest extends NbtDataMessage implements Message
         switch (command) {
             case "hair":
                 setHair(player, entity);
+                break;
+            case "facial_hair":
+                setFacial_hair(player, entity);
                 break;
             case "clothing":
                 setClothing(player, entity);

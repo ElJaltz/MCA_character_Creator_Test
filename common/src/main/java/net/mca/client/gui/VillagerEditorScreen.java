@@ -85,6 +85,11 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
     private ButtonWidget vanillaSkinWidget;
     private ButtonWidget doneWidget;
 
+    private boolean rotating = false;
+    private double lastMouseX;
+    private float currentRotation = 0;
+
+
     public VillagerEditorScreen(UUID villagerUUID, UUID playerUUID, boolean allowPlayerModel, boolean allowVillagerModel) {
         super(Text.translatable("gui.VillagerEditorScreen.title"));
         this.villagerUUID = villagerUUID;
@@ -748,7 +753,6 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
             setPage("body");
             eventCallback("clothing");
             return true;
-
         }
 
         if (page.equals("hair") && (hoveredClothingId >= 0 && filteredHair.size() > hoveredClothingId)) {
@@ -756,11 +760,41 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
             setPage("head");
             eventCallback("hair");
             return true;
+        }
 
+        if (button == 0) {
+            int x = width / 2 - DATA_WIDTH / 2;
+            int y = height / 2 + 70;
+            // Ajusta los valores si el área de la entidad cambia
+            if (mouseX >= x - 70 && mouseX <= x + 70 && mouseY >= y - 70 && mouseY <= y + 70) {
+                rotating = true;
+                lastMouseX = mouseX;
+                return true;
+            }
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (button == 0) {
+            rotating = false;
+            return true;
+        }
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (rotating && button == 0) {
+            double dx = mouseX - lastMouseX;
+            currentRotation -= dx * 0.5f; // Sensibilidad
+            lastMouseX = mouseX;
+            return true;
+        }
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+    }
+
+
 
     protected void eventCallback(String event) {
         // nop
@@ -789,6 +823,9 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
         if (shouldDrawEntity()) {
             int x = width / 2 - DATA_WIDTH / 2;
             int y = height / 2 + 70;
+
+            float rotation = currentRotation;
+
             if (villagerUUID.equals(playerUUID) && shouldUsePlayerModel()) {
                 assert MinecraftClient.getInstance().player != null;
                 new CharacterCreatorPreviewWidget(
@@ -799,12 +836,12 @@ public class VillagerEditorScreen extends Screen implements SkinListUpdateListen
             } else {
                 new CharacterCreatorPreviewWidget(
                         villager,
-                        x, y, 60,
-                        0, 0
+                        x, y, 65,
+                        (int) rotation, 0
                 ).render(context);
             }
 
-            if (shouldPrintPlayerHint() && villagerUUID.equals(playerUUID)
+        if (shouldPrintPlayerHint() && villagerUUID.equals(playerUUID)
                     && villagerData.getInt("playerModel") != VillagerLike.PlayerModel.VILLAGER.ordinal()) {
                 final MatrixStack matrices = context.getMatrices();
                 matrices.push();

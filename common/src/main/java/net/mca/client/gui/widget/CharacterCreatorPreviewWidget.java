@@ -27,7 +27,7 @@ public class CharacterCreatorPreviewWidget {
     }
 
     public void render(DrawContext context) {
-        Quaternionf rotationYaw = new Quaternionf().rotateY((float) Math.toRadians(yaw + 180));
+        Quaternionf rotationYaw = new Quaternionf().rotateY((float) Math.toRadians(yaw + 160));
         Quaternionf rotationPitch = new Quaternionf().rotateX((float) Math.toRadians(pitch)).rotateZ((float) Math.PI); // Flip Z
 
         float originalBodyYaw = entity.bodyYaw;
